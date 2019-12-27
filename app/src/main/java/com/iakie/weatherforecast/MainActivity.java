@@ -1,7 +1,10 @@
 package com.iakie.weatherforecast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
@@ -46,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (cityList.size()==0) {
             cityList.add("北京");
+            cityList.add("上海");
+            cityList.add("沈阳");
+            cityList.add("重庆");
         }
 
         // 初始化ViewPager页面的方法
@@ -55,9 +61,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         
         // 创建小圆点指示器
         initPoint();
+        // 设置最后一个城市信息
+        mainVp.setCurrentItem(fragmentList.size() - 1);
+        // 设置ViewPager页面监听
+        setPageListener();
+    }
+
+    private void setPageListener() {
+        // 设置监听事件
+        mainVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < imgList.size(); i++) {
+                    imgList.get(i).setImageResource(R.mipmap.a1);
+                }
+                imgList.get(position).setImageResource(R.mipmap.a2);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void initPoint() {
+        // 创建小圆点 ViewPager页面指示器的函数
+        for (int i = 0; i < fragmentList.size(); i++) {
+            ImageView pIv = new ImageView(this);
+            pIv.setImageResource(R.mipmap.a1);
+            pIv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT));
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) pIv.getLayoutParams();
+            lp.setMargins(0,0,20,0);
+            imgList.add(pIv);
+            pointLayout.addView(pIv);
+        }
+        imgList.get(imgList.size()-1).setImageResource(R.mipmap.a2);
     }
 
     private void initPager() {
