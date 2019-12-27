@@ -1,6 +1,6 @@
 package com.iakie.weatherforecast;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;

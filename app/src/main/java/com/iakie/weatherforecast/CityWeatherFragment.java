@@ -33,7 +33,7 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
     String url1 = "http://api.map.baidu.com/telematics/v3/weather?location=";
     String url2 = "&output=json&ak=FkPhtMBK0HTIQNh7gG4cNUttSTyr0nzo";
     private List<WeatherBean.ResultsBean.IndexBean> indexList;
-    private WeatherBean.ResultsBean.WeatherDataBean todayDataBean;
+    String city;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,7 +43,7 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
 
         // 可以通过activity传值获取到当前fregment加载的是哪个地方的天气情况
         Bundle bundle = getArguments();
-        String city = bundle.getString("city");
+        city = bundle.getString("city");
         String url = url1 + city + url2;
 
         // 调用父类获取数据的方法
@@ -73,12 +73,12 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         dateTv.setText(weatherBean.getDate());
         cityTv.setText(resultsBean.getCurrentCity());
         // 获取今日天气情况
-        todayDataBean = resultsBean.getWeather_data().get(0);
+        WeatherBean.ResultsBean.WeatherDataBean todayDataBean = resultsBean.getWeather_data().get(0);
         windTv.setText(todayDataBean.getWind());
         tempRangeTv.setText(todayDataBean.getTemperature());
         conditionTv.setText(todayDataBean.getWeather());
         // 获取实时天气温度情况，需要处理字符串
-        String[] split = todayDataBean.getDate().split(": ");
+        String[] split = todayDataBean.getDate().split("：");
         String todayTemp = split[1].replace(")","");
         tempTv.setText(todayTemp);
         // 设置显示的天气情况图片
